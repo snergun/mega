@@ -3,6 +3,7 @@ module reset
 module load anaconda3_gpu
 conda create -n mega11 python=3.8 -y
 source activate mega11
+module load cuda/11.3
 export TORCH_CUDA_ARCH_LIST="8.0;8.6"
 conda install pytorch==1.11.0 torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit=11.3 -c pytorch -c conda-forge -y
 pip install --force-reinstall "numpy<1.20" cython

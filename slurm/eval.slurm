@@ -15,11 +15,14 @@ conda deactivate || true
 module purge
 module reset
 module load anaconda3_gpu
-source activate mega11
+source activate mega10
+module load cuda/11.3
 
-DATA=wt_103_data_bin
+DATA=data/wikitext-103
+SAVE=checkpoints/1024_wt103
 
 # wikitext-103
 python fairseq_cli/eval_mega_lm.py ${DATA} \
-    --path {SAVE}/model.pt  --gen-subset test --max-tokens 5000000 --test-chunk-size 2048 --chunk-nums 2  --softmax-batch 1024 \
-    --sample-break-mode 'complete' --valid-block "splits:10" --model-overrides '{"decoder_chunk_size": 2048,"max_tokens_valid": 5000000}'
+    --path ${SAVE}/model.pt  --gen-subset test --max-tokens 5000000 --test-chunk-size 2048 --chunk-nums 2  --softmax-batch 1024 \
+    --sample-break-mode 'complete' --valid-block "splits:10" --model-overrides '{"decoder_chunk_size": 2048,"max_tokens_valid": 5000000}' \
+    --results-path checkpoints/1024_wt103/results/ --output-word-probs 

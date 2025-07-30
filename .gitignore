@@ -141,5 +141,6 @@ dmypy.json
 # VSCODE
 .vscode/ftp-sync.json
 .vscode/settings.json
-
+# Checkpoints and data folders
+checkpoints/
 data/

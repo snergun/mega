@@ -15,7 +15,12 @@ conda deactivate || true
 module purge
 module reset
 module load anaconda3_gpu
-source activate mega11
-
-# Run the test script
-python -c "import torch; print('PyTorch version:', torch.__version__);torch.cuda.is_available() or print('CUDA is not available');import fairseq; print('Fairseq version:', fairseq.__version__)"
+source activate mega10
+python -c "import torch; \
+print('Torch:', torch.__version__); \
+print('Built with CUDA:', torch.version.cuda); \
+print('cuDNN version:', torch.backends.cudnn.version()); \
+print('GPU name:', torch.cuda.get_device_name(0)); \
+print('Compute capability:', torch.cuda.get_device_capability(0))"
+nvcc --version
+nvidia-smi
