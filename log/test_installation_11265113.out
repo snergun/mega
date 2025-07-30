@@ -1,0 +1,5 @@
+Running "module reset". Resetting modules to system default. The following $MODULEPATH directories have been removed: None
+usage: conda [-h] [-v] [--no-plugins] [-V] COMMAND ...
+conda: error: argument COMMAND: invalid choice: 'deactivate' (choose from 'clean', 'compare', 'config', 'create', 'info', 'init', 'install', 'list', 'notices', 'package', 'remove', 'uninstall', 'rename', 'run', 'search', 'update', 'upgrade', 'build', 'content-trust', 'convert', 'debug', 'develop', 'doctor', 'index', 'inspect', 'metapackage', 'render', 'repoquery', 'skeleton', 'server', 'token', 'verify', 'env', 'repo')
+PyTorch version: 1.11.0
+Fairseq version: 0.9.0

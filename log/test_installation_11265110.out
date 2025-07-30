@@ -1,0 +1,36 @@
+Running "module reset". Resetting modules to system default. The following $MODULEPATH directories have been removed: None
+A conda environment has been detected CONDA_PREFIX=
+/u/eergun/.conda/envs/mega11 
+anaconda3_gpu is loaded. Consider running conda deactivate and reloading it.
+usage: conda [-h] [-v] [--no-plugins] [-V] COMMAND ...
+conda: error: argument COMMAND: invalid choice: 'deactivate' (choose from 'clean', 'compare', 'config', 'create', 'info', 'init', 'install', 'list', 'notices', 'package', 'remove', 'uninstall', 'rename', 'run', 'search', 'update', 'upgrade', 'build', 'content-trust', 'convert', 'debug', 'develop', 'doctor', 'index', 'inspect', 'metapackage', 'render', 'repoquery', 'skeleton', 'token', 'env', 'repo', 'verify', 'server')
+Traceback (most recent call last):
+  File "__init__.pxd", line 943, in numpy.import_array
+RuntimeError: module compiled against API version 0xe but this version of numpy is 0xd
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/work/hdd/bcyi/eergun/mega/fairseq/__init__.py", line 17, in <module>
+    import fairseq.criterions  # noqa
+  File "/work/hdd/bcyi/eergun/mega/fairseq/criterions/__init__.py", line 10, in <module>
+    from fairseq.criterions.fairseq_criterion import FairseqCriterion, LegacyFairseqCriterion
+  File "/work/hdd/bcyi/eergun/mega/fairseq/criterions/fairseq_criterion.py", line 11, in <module>
+    from fairseq import metrics, utils
+  File "/work/hdd/bcyi/eergun/mega/fairseq/utils.py", line 21, in <module>
+    from fairseq.data import iterators
+  File "/work/hdd/bcyi/eergun/mega/fairseq/data/__init__.py", line 15, in <module>
+    from .audio.speech_commands_dataset import SpeechCommandsDataset
+  File "/work/hdd/bcyi/eergun/mega/fairseq/data/audio/speech_commands_dataset.py", line 23, in <module>
+    import sklearn.model_selection
+  File "/sw/external/python/anaconda3_gpu/lib/python3.9/site-packages/sklearn/__init__.py", line 83, in <module>
+    from .base import clone
+  File "/sw/external/python/anaconda3_gpu/lib/python3.9/site-packages/sklearn/base.py", line 19, in <module>
+    from .utils import _IS_32BIT
+  File "/sw/external/python/anaconda3_gpu/lib/python3.9/site-packages/sklearn/utils/__init__.py", line 27, in <module>
+    from .murmurhash import murmurhash3_32
+  File "sklearn/utils/murmurhash.pyx", line 26, in init sklearn.utils.murmurhash
+  File "__init__.pxd", line 945, in numpy.import_array
+ImportError: numpy.core.multiarray failed to import
+PyTorch version: 2.2.0.dev20231003+cu121

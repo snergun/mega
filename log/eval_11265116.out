@@ -1,0 +1,7 @@
+usage: conda [-h] [-v] [--no-plugins] [-V] COMMAND ...
+conda: error: argument COMMAND: invalid choice: 'deactivate' (choose from 'clean', 'compare', 'config', 'create', 'info', 'init', 'install', 'list', 'notices', 'package', 'remove', 'uninstall', 'rename', 'run', 'search', 'update', 'upgrade', 'build', 'content-trust', 'convert', 'debug', 'develop', 'doctor', 'index', 'inspect', 'metapackage', 'render', 'repoquery', 'skeleton', 'verify', 'server', 'env', 'token', 'repo')
+Running "module reset". Resetting modules to system default. The following $MODULEPATH directories have been removed: None
+Traceback (most recent call last):
+  File "fairseq_cli/eval_mega_lm.py", line 20, in <module>
+    from fairseq import checkpoint_utils, options, tasks, utils
+ModuleNotFoundError: No module named 'fairseq'

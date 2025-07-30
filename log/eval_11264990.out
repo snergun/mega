@@ -1,0 +1,5 @@
+Running "module reset". Resetting modules to system default. The following $MODULEPATH directories have been removed: None
+Traceback (most recent call last):
+  File "fairseq_cli/eval_mega_lm.py", line 20, in <module>
+    from fairseq import checkpoint_utils, options, tasks, utils
+ModuleNotFoundError: No module named 'fairseq'
