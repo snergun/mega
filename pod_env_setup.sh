@@ -1,5 +1,5 @@
-conda create -n mega10 python=3.8 -y
-source activate mega10
+conda create -n combined python=3.8 -y
+source activate combined
 pip install torch==1.10.1+cu111 torchvision==0.11.2+cu111 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html
 pip install --force-reinstall "numpy<1.20" cython
 pip install scikit-learn --no-deps

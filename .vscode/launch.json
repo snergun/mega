@@ -25,9 +25,6 @@
                 "--sample-break-mode", "complete",
                 "--valid-block", "splits:10",
                 "--model-overrides", "{\"decoder_chunk_size\": 2048,\"max_tokens_valid\": 5000000}",
-                "--results-path", "checkpoints/1024_wt103/results/",
-                "--output-word-probs",
-                "--save-layers", "-1"
             ],
             "cwd": "${workspaceFolder}"
         },

@@ -580,6 +580,8 @@ def add_eval_lm_args(parser):
                        help='process this number of chunks each time')
     group.add_argument('--save-layers', default=[], type=int, nargs='+',
                     help='Layers to save features from. -1 for last layer, 0 for first layer.')
+    group.add_argument('--save-probs', action='store_true',
+                       help='if set, save target word probabilities to numpy memmap')
     # fmt: on
 
 

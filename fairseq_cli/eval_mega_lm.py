@@ -24,7 +24,7 @@ from fairseq.logging.meters import StopwatchMeter, TimeMeter
 from fairseq.sequence_scorer import SequenceScorer
 from fairseq import distributed_utils
 import sys
-
+import numpy as np
 logging.basicConfig(
     format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S',
@@ -152,6 +152,24 @@ def main(parsed_args, **unused_kwargs):
     score_sum = 0.
     count = 0
 
+    if args.save_layers != []:
+        n_layers = len(models[0].decoder.layers)
+        save_layers = [l if l != -1 else n_layers-1 for l in args.save_layers]
+        layer_memmaps = {
+            f"layer_{l}_states": np.memmap(
+                os.path.join(args.results_path, f"{args.gen_subset}_layer_{l}_layer_output.npy"),
+                dtype=np.float32,
+                mode='w+',
+                shape=(sum(dataset.sizes), args.decoder_input_dim)
+            ) for l in save_layers
+        }
+    if args.save_probs:
+        probs_memmap = np.memmap(
+            os.path.join(args.results_path, f"{args.gen_subset}_prob.npy"),
+            dtype=np.float32,
+            mode='w+',
+            shape=(sum(dataset.sizes),)
+            )
     if args.remove_bpe is not None:
         if args.remove_bpe == 'sentencepiece':
             raise NotImplementedError
@@ -176,6 +194,10 @@ def main(parsed_args, **unused_kwargs):
         if 'net_input' not in doc_sample:
             continue
 
+        # Pointer for saving features and probs
+        sample_save_pointer = np.cumsum(np.concatenate([np.array([0]),dataset.sizes]))[:-1]
+        sample_save_pointer = {i: sample_save_pointer[i] for i in range(len(sample_save_pointer))}
+
         # a specific assertion for debugging
         total_size = doc_sample['net_input']['src_tokens'].size(1)
         batch_size = len(doc_sample['net_input']['src_lengths'])
@@ -199,7 +221,7 @@ def main(parsed_args, **unused_kwargs):
             hypos = scorer.generate(models, sample, incremental_states=incremental_states, 
                                     save_layers=args.save_layers)
             gen_timer.stop(sample['ntokens'])
-
+        
             for j, hypos_i in enumerate(hypos):
                 hypo = hypos_i[0]
                 sample_id = sample['id'][j]
@@ -207,7 +229,17 @@ def main(parsed_args, **unused_kwargs):
                 tokens = hypo['tokens']
                 tgt_len = tokens.numel()
                 pos_scores = hypo['positional_scores'].float()
-
+                
+                # Save layer states and probs if requested
+                current_idx = sample_save_pointer[sample_id.item()]
+                if args.save_layers != []:
+                    for l in save_layers:
+                        layer_memmaps[f"layer_{l}_states"][current_idx:current_idx + tgt_len, :] = \
+                            hypo[f"layer_{l}_states"].cpu().numpy()
+                if args.save_probs:
+                    probs_memmap[current_idx:current_idx + tgt_len] = pos_scores.cpu().numpy()
+                sample_save_pointer[sample_id.item()] += tgt_len
+                        
                 if args.add_bos_token:
                     assert hypo['tokens'][0].item() == task.target_dictionary.bos()
                     tokens = tokens[1:]
