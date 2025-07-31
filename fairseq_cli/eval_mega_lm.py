@@ -157,7 +157,7 @@ def main(parsed_args, **unused_kwargs):
         save_layers = [l if l != -1 else n_layers-1 for l in args.save_layers]
         layer_memmaps = {
             f"layer_{l}_states": np.memmap(
-                os.path.join(args.results_path, f"{args.gen_subset}_layer_{l}_layer_output.npy"),
+                os.path.join(args.results_path, f"{args.gen_subset if args.gen_subset != 'valid' else 'validation'}_layer_{l}_layer_output.npy"),
                 dtype=np.float32,
                 mode='w+',
                 shape=(sum(dataset.sizes), args.decoder_input_dim)
@@ -165,7 +165,7 @@ def main(parsed_args, **unused_kwargs):
         }
     if args.save_probs:
         probs_memmap = np.memmap(
-            os.path.join(args.results_path, f"{args.gen_subset}_prob.npy"),
+            os.path.join(args.results_path, f"{args.gen_subset if args.gen_subset != 'valid' else 'validation'}_prob.npy"),
             dtype=np.float32,
             mode='w+',
             shape=(sum(dataset.sizes),)
