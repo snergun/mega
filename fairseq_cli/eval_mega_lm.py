@@ -196,7 +196,8 @@ def main(parsed_args, **unused_kwargs):
             sample = utils.move_to_cuda(sample) if use_cuda else sample
 
             gen_timer.start()
-            hypos = scorer.generate(models, sample, incremental_states=incremental_states)
+            hypos = scorer.generate(models, sample, incremental_states=incremental_states, 
+                                    save_layers=args.save_layers)
             gen_timer.stop(sample['ntokens'])
 
             for j, hypos_i in enumerate(hypos):

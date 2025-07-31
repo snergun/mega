@@ -64,9 +64,17 @@ class SequenceScorer(object):
             else:
                 decoder_out = model(**net_input)
             attn = decoder_out[1] if len(decoder_out) > 1 else None
+            #Save layer states if requested
+            inner_states = attn.get('inner_states', None)
+            if inner_states is not None:
+                inner_states = inner_states[1:] # skip the inputs to the first layer (only pos embeddings word_embeddings)
+                n_layers = len(inner_states)
+                save_layers = kwargs.get("save_layers", [])
+                save_layers = [l if l >= 0 else n_layers-1 for l in save_layers]
+                save_states = [inner_states[i] for i in save_layers]
+                
             if type(attn) is dict:
-                attn = attn.get('attn', None)
-
+                attn = attn.get('attn', None) 
             batched = batch_for_softmax(decoder_out, orig_target)
             probs, idx = None, 0
             for bd, tgt, is_single in batched:
@@ -133,4 +141,9 @@ class SequenceScorer(object):
                 'alignment': alignment,
                 'positional_scores': avg_probs_i,
             }])
+            if inner_states is not None:
+                hypos[-1].update(
+                    {f"layer_{i}_states" : save_states[i] for i in save_layers}
+                )
+
         return hypos

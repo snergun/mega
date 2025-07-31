@@ -578,6 +578,8 @@ def add_eval_lm_args(parser):
                        help='attention chunk size at test time')
     group.add_argument('--chunk-nums', type=int, default=1, metavar='N',
                        help='process this number of chunks each time')
+    group.add_argument('--save-layers', default=[], type=int, nargs='+',
+                    help='Layers to save features from. -1 for last layer, 0 for first layer.')
     # fmt: on
 
 

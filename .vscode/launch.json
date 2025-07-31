@@ -1,0 +1,35 @@
+{
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python Debugger: MEGA LM Eval (WikiText-103)",
+            "type": "debugpy",
+            "python": "/opt/conda/envs/mega10/bin/python",
+            "request": "launch",
+            "program": "fairseq_cli/eval_mega_lm.py",
+            "console": "integratedTerminal",
+            "args": [
+                "data/wikitext-103",
+                "--path", "checkpoints/1024_wt103/model.pt",
+                "--gen-subset", "test",
+                "--max-tokens", "5000000",
+                "--test-chunk-size", "2048",
+                "--chunk-nums", "2",
+                "--softmax-batch", "1024",
+                "--sample-break-mode", "complete",
+                "--valid-block", "splits:10",
+                "--model-overrides", "{\"decoder_chunk_size\": 2048,\"max_tokens_valid\": 5000000}",
+                "--results-path", "checkpoints/1024_wt103/results/",
+                "--output-word-probs",
+                "--save-layers", "-1"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+    ]
+}
